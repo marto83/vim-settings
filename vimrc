@@ -17,6 +17,8 @@ set hlsearch    "hilight searches by default
 set nowrap      "dont wrap lines
 set linebreak   "wrap lines at convenient points
 
+let mapleader = ","
+
 "statusline setup
 set statusline=%f       "tail of the filename
 
@@ -29,7 +31,21 @@ let g:speckyRunSpecCmd = "/Users/rob/.rvm/gems/ruby-1.9.2-p0@tekpub3r/bin/rspec 
 let g:speckyRunRdocCmd = "fri -L -f plain"
 let g:speckyWindowType = 2
 
+"switch between two files
+nnoremap <leader><leader> <c-^>
 
+"open or view files in the same directory as of the current file
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e :edit %%
+map <leader>v :view %%
+
+set winwidth=84
+" We have to have a winheight bigger than we want to set winminheight. But if
+" we set winheight to be huge before winminheight, the winminheight set will
+" fail.
+set winheight=5
+set winminheight=5
+set winheight=999
 
 "line numbers
 set number

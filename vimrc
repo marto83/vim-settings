@@ -198,6 +198,11 @@ function! s:Median(nums)
     endif
 endfunction
 
+"Rails specific mappings
+map <leader>gr :topleft :split config/routes.rb<cr>
+map <leader>gg :topleft 100 :split Gemfile<cr>
+
+
 "indent settings
 set shiftwidth=2
 set softtabstop=2

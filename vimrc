@@ -18,6 +18,7 @@ set nowrap      "dont wrap lines
 set linebreak   "wrap lines at convenient points
 
 let mapleader = ","
+nnoremap s <right>
 
 "statusline setup
 set statusline=%f       "tail of the filename
@@ -91,6 +92,8 @@ set statusline+=%l/%L   "cursor line/total lines
 set statusline+=\ %P    "percent through file
 set laststatus=2
 
+"Command-T Mappings
+map <Leader>b :CommandTBuffer<CR>
 "recalculate the trailing whitespace warning when idle, and after saving
 autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
 
@@ -243,11 +246,6 @@ set t_Co=256
 "hide buffers when not displayed
 set hidden
 
-"dont load csapprox if we no gui support - silences an annoying warning
-if !has("gui")
-    let g:CSApprox_loaded = 1
-endif
-
 "make <c-l> clear the highlight as well as redraw
 nnoremap <C-L> :nohls<CR><C-L>
 inoremap <C-L> <C-O>:nohls<CR>
@@ -266,22 +264,6 @@ nnoremap Y y$
 
 "mark syntax errors with :signs
 let g:syntastic_enable_signs=1
-
-"snipmate setup
-source ~/.vim/snippets/support_functions.vim
-autocmd vimenter * call s:SetupSnippets()
-function! s:SetupSnippets()
-
-    "if we're in a rails env then read in the rails snippets
-    if filereadable("./config/environment.rb")
-        call ExtractSnips("~/.vim/snippets/ruby-rails", "ruby")
-        call ExtractSnips("~/.vim/snippets/eruby-rails", "eruby")
-    endif
-
-    call ExtractSnips("~/.vim/snippets/html", "eruby")
-    call ExtractSnips("~/.vim/snippets/html", "xhtml")
-    call ExtractSnips("~/.vim/snippets/html", "php")
-endfunction
 
 "visual search mappings
 function! s:VSetSearch()
@@ -304,16 +286,4 @@ function! SetCursorPosition()
             normal! zz
         endif
     end
-endfunction
-
-"define :HighlightLongLines command to highlight the offending parts of
-"lines that are longer than the specified length (defaulting to 80)
-command! -nargs=? HighlightLongLines call s:HighlightLongLines('<args>')
-function! s:HighlightLongLines(width)
-    let targetWidth = a:width != '' ? a:width : 79
-    if targetWidth > 0
-        exec 'match Todo /\%>' . (targetWidth) . 'v/'
-    else
-        echomsg "Usage: HighlightLongLines [natural number]"
-    endif
 endfunction
